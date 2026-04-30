@@ -63,6 +63,29 @@
   const yr = document.querySelector('[data-year]');
   if (yr) yr.textContent = new Date().getFullYear();
 
+  // Video showcase: autoplay when ≥50% in viewport, pause when scrolled away
+  const videos = document.querySelectorAll('.video-frame video');
+  if (videos.length && 'IntersectionObserver' in window) {
+    const vio = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        const v = en.target;
+        if (en.isIntersecting && en.intersectionRatio >= 0.5) {
+          const p = v.play();
+          if (p && typeof p.catch === 'function') p.catch(() => {});
+        } else {
+          if (!v.paused) v.pause();
+        }
+      });
+    }, { threshold: [0, 0.5, 1] });
+    videos.forEach(v => {
+      v.muted = true;            // required for autoplay on mobile
+      v.playsInline = true;
+      v.setAttribute('playsinline', '');
+      v.setAttribute('webkit-playsinline', '');
+      vio.observe(v);
+    });
+  }
+
   // Word cloud: rotate words that have data-rotate
   const cloud = document.getElementById('wordCloud');
   if (cloud && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
