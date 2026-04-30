@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://desimonkkitchen.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://desimonkkitchen.com/menu.html</loc><changefreq>weekly</changefreq><priority>0.95</priority></url>
+  <url><loc>https://desimonkkitchen.com/order.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://desimonkkitchen.com/delivery.html</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://desimonkkitchen.com/about.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://desimonkkitchen.com/contact.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://desimonkkitchen.com/gallery.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://desimonkkitchen.com/faq.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://desimonkkitchen.com/terms.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://desimonkkitchen.com/privacy.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://desimonkkitchen.com/refund.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+</urlset>

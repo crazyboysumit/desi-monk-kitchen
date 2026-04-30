@@ -1,0 +1,26 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Build helpers (not needed in production)
+crop-assets.ps1
+
+# Apache config — Vercel uses vercel.json instead
+.htaccess
+
+# Vercel runtime
+.vercel
+node_modules/
+
+# Local-only reference (prompts, Gemini source PNGs, deployment notes)
+prompts/
+
+# Big Gemini source PNGs at root, in case any leak there
+Gemini_Generated_Image_*.png
+
+# Manual crop staging folder (already used to build assets/images/brand)
+assets/images/all/

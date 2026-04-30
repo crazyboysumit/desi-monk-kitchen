@@ -1,0 +1,8 @@
+.htaccess
+crop-assets.ps1
+prompts/Gemini_Generated_Image_*.png
+Gemini_Generated_Image_*.png
+assets/images/all/
+.vscode
+.idea
+.DS_Store
