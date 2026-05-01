@@ -63,28 +63,52 @@
   const yr = document.querySelector('[data-year]');
   if (yr) yr.textContent = new Date().getFullYear();
 
-  // Video showcase: autoplay when ≥50% in viewport, pause when scrolled away
-  const videos = document.querySelectorAll('.video-frame video');
-  if (videos.length && 'IntersectionObserver' in window) {
-    const vio = new IntersectionObserver((entries) => {
-      entries.forEach(en => {
-        const v = en.target;
-        if (en.isIntersecting && en.intersectionRatio >= 0.5) {
-          const p = v.play();
-          if (p && typeof p.catch === 'function') p.catch(() => {});
-        } else {
-          if (!v.paused) v.pause();
-        }
-      });
-    }, { threshold: [0, 0.5, 1] });
-    videos.forEach(v => {
-      v.muted = true;            // required for autoplay on mobile
+  // Video showcase: cross-fade between clips, autoplay only when ≥50% in viewport
+  document.querySelectorAll('.video-player').forEach(player => {
+    const clips = Array.from(player.querySelectorAll('.vp-clip'));
+    if (!clips.length) return;
+    let activeIdx = 0;
+    let inView = false;
+
+    clips.forEach(v => {
+      v.muted = true;
       v.playsInline = true;
       v.setAttribute('playsinline', '');
       v.setAttribute('webkit-playsinline', '');
-      vio.observe(v);
     });
-  }
+
+    const tryPlay = (v) => {
+      const p = v.play();
+      if (p && typeof p.catch === 'function') p.catch(() => {});
+    };
+
+    const advance = () => {
+      const cur = clips[activeIdx];
+      const nextIdx = (activeIdx + 1) % clips.length;
+      const next = clips[nextIdx];
+      next.currentTime = 0;
+      cur.classList.remove('vp-active');
+      next.classList.add('vp-active');
+      activeIdx = nextIdx;
+      if (inView) tryPlay(next);
+    };
+
+    clips.forEach(v => v.addEventListener('ended', advance));
+
+    if ('IntersectionObserver' in window) {
+      const vio = new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+          inView = en.isIntersecting && en.intersectionRatio >= 0.5;
+          const active = clips[activeIdx];
+          if (inView) tryPlay(active);
+          else clips.forEach(c => { if (!c.paused) c.pause(); });
+        });
+      }, { threshold: [0, 0.5, 1] });
+      vio.observe(player);
+    } else {
+      tryPlay(clips[0]);
+    }
+  });
 
   // Word cloud: rotate words that have data-rotate
   const cloud = document.getElementById('wordCloud');
