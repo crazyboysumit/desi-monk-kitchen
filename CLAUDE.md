@@ -20,7 +20,7 @@
 | | |
 |---|---|
 | **Type** | Home-based cloud kitchen, single operator |
-| **Address** | Rupena Agrahara, Bommanahalli, Bengaluru — 560068 |
+| **Address** | Roopena Agrahara, Bommanahalli, Bengaluru — 560068 |
 | **Adjacent** | Silk Board, PROM (used for navigation references) |
 | **Hours** | 12:00–3:30 PM lunch · 7:00–11:00 PM dinner · 7 days a week |
 | **Free delivery zone** | 3 km radius — Silk Board, BTM 1 & 2, Bommanahalli, Viratnagar, HSR Sec 7, Madiwala, Hongasandra |
