@@ -93,7 +93,21 @@
       if (inView) tryPlay(next);
     };
 
-    clips.forEach(v => v.addEventListener('ended', advance));
+    // Lookahead buffer: warm next clip when current passes 60% — keeps the
+    // cross-fade stutter-free even with preload="metadata" on non-active clips.
+    let warmedFor = -1;
+    const warmNext = (e) => {
+      const cur = e.target;
+      if (!cur.duration || warmedFor === activeIdx) return;
+      if (cur.currentTime / cur.duration < 0.6) return;
+      warmedFor = activeIdx;
+      const next = clips[(activeIdx + 1) % clips.length];
+      try { next.load(); } catch (_) {}
+    };
+    clips.forEach(v => {
+      v.addEventListener('ended', () => { warmedFor = -1; advance(); });
+      v.addEventListener('timeupdate', warmNext);
+    });
 
     if ('IntersectionObserver' in window) {
       const vio = new IntersectionObserver((entries) => {
