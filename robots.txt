@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /prompts/
+Disallow: /team/
 Disallow: /crop-assets.ps1
 
 Sitemap: https://desimonkkitchen.com/sitemap.xml

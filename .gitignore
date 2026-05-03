@@ -24,3 +24,6 @@ Gemini_Generated_Image_*.png
 
 # Manual crop staging folder (already used to build assets/images/brand)
 assets/images/all/
+
+# Confidential business documents (PAN, Aadhar, rental, GST, internal tracker)
+documents/

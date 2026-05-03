@@ -1,0 +1,1304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Desi Monk Kitchen — Internal Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --saffron: #E8A93C;
+    --saffron-soft: #FBE6B8;
+    --teal: #1F5249;
+    --teal-deep: #143A33;
+    --teal-soft: #E4EFEC;
+    --chili: #C8342A;
+    --chili-soft: #FBE3E1;
+    --brown: #6B3416;
+    --cream: #FBF6E9;
+    --paper: #FFFFFF;
+    --ink: #1B1B1B;
+    --ink-2: #4A4A4A;
+    --ink-3: #7A7A7A;
+    --line: #E6E1D2;
+    --shadow: 0 1px 2px rgba(20,58,51,.06), 0 8px 24px rgba(20,58,51,.06);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4 {
+    font-family: "Fraunces", Georgia, serif;
+    color: var(--teal-deep);
+    letter-spacing: -0.01em;
+    margin: 0 0 .4em;
+  }
+  h1 { font-size: clamp(1.6rem, 2.6vw, 2.1rem); font-weight: 700; }
+  h2 { font-size: clamp(1.3rem, 2vw, 1.55rem); font-weight: 600; margin-top: 1.4em; }
+  h3 { font-size: 1.05rem; font-weight: 600; color: var(--brown); }
+  h4 { font-size: .95rem; font-weight: 600; color: var(--teal); margin: 1em 0 .35em; }
+  p { margin: 0 0 .75em; color: var(--ink-2); }
+  a { color: var(--teal); text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { color: var(--chili); }
+  code, kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--cream); padding: 1px 5px; border-radius: 4px; font-size: .85em; }
+
+  /* ---------- password gate ---------- */
+  .gate {
+    position: fixed; inset: 0; z-index: 999;
+    background: linear-gradient(160deg, #FBF6E9 0%, #F2E7C9 100%);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .gate-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 28px 26px;
+    width: min(380px, 100%);
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .gate-mark {
+    font-family: "Fraunces", serif; font-size: 1.05rem; font-weight: 600; color: var(--teal);
+    letter-spacing: .04em; text-transform: uppercase;
+  }
+  .gate h1 { margin: 8px 0 4px; font-size: 1.35rem; }
+  .gate p { color: var(--ink-3); font-size: .9rem; margin: 0 0 18px; }
+  .gate input {
+    width: 100%; padding: 11px 14px; font-size: 1rem; border-radius: 9px;
+    border: 1px solid var(--line); background: var(--cream); color: var(--ink);
+    font-family: inherit; outline: none; transition: border-color .15s, background .15s;
+  }
+  .gate input:focus { border-color: var(--teal); background: var(--paper); }
+  .gate button {
+    margin-top: 12px; width: 100%; padding: 11px 14px; border-radius: 9px;
+    border: 0; background: var(--teal); color: #fff; font-weight: 600; font-size: .95rem;
+    cursor: pointer; transition: background .15s, transform .05s;
+  }
+  .gate button:hover { background: var(--teal-deep); }
+  .gate button:active { transform: translateY(1px); }
+  .gate-error { color: var(--chili); font-size: .85rem; margin-top: 10px; min-height: 18px; }
+  .gate-hint { color: var(--ink-3); font-size: .75rem; margin-top: 14px; }
+
+  /* ---------- shell ---------- */
+  .shell { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+  .sidebar {
+    position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+    background: var(--paper); border-right: 1px solid var(--line); padding: 18px 14px;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px; padding: 4px 8px 16px;
+    border-bottom: 1px solid var(--line); margin-bottom: 12px;
+  }
+  .brand-mark {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, var(--saffron) 0%, #B97A1F 100%);
+    display: grid; place-items: center; color: #2B1306;
+    font-family: "Fraunces", serif; font-weight: 700; font-size: 1.1rem;
+  }
+  .brand-name { font-family: "Fraunces", serif; font-weight: 600; color: var(--teal-deep); line-height: 1.1; }
+  .brand-sub { font-size: .73rem; color: var(--ink-3); letter-spacing: .04em; text-transform: uppercase; }
+  .nav { display: flex; flex-direction: column; gap: 2px; }
+  .nav a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px; border-radius: 8px;
+    font-size: .9rem; color: var(--ink-2); text-decoration: none;
+    transition: background .12s, color .12s;
+  }
+  .nav a:hover { background: var(--cream); color: var(--teal); }
+  .nav a.active { background: var(--teal-soft); color: var(--teal-deep); font-weight: 600; }
+  .nav .nav-num {
+    width: 22px; height: 22px; flex: 0 0 22px;
+    border-radius: 50%; background: var(--cream); color: var(--ink-3);
+    font-size: .72rem; font-weight: 600; display: grid; place-items: center;
+  }
+  .nav a.active .nav-num { background: var(--saffron); color: #3A1F00; }
+
+  .main { padding: 28px clamp(20px, 4vw, 40px) 80px; max-width: 1100px; }
+  .topbar {
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between;
+    margin-bottom: 22px;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 12px; }
+  .menu-btn {
+    display: none; background: var(--paper); border: 1px solid var(--line); color: var(--teal);
+    width: 38px; height: 38px; border-radius: 8px; cursor: pointer; font-size: 1.1rem;
+  }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn {
+    background: var(--paper); border: 1px solid var(--line); color: var(--teal);
+    padding: 7px 12px; border-radius: 8px; font-size: .82rem; font-weight: 500;
+    cursor: pointer; font-family: inherit; transition: background .15s, color .15s, border-color .15s;
+  }
+  .btn:hover { background: var(--teal-soft); border-color: var(--teal); }
+  .btn-primary { background: var(--teal); color: #fff; border-color: var(--teal); }
+  .btn-primary:hover { background: var(--teal-deep); border-color: var(--teal-deep); color: #fff; }
+  .btn-warn { color: var(--chili); }
+  .btn-warn:hover { background: var(--chili-soft); border-color: var(--chili); color: var(--chili); }
+
+  .saved-tag { font-size: .75rem; color: var(--ink-3); }
+
+  /* ---------- sections ---------- */
+  section { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 22px clamp(18px, 3vw, 28px); margin-bottom: 18px; box-shadow: var(--shadow); scroll-margin-top: 16px; }
+  .sec-head { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .sec-num { font-family: "Fraunces", serif; font-size: .85rem; color: var(--saffron); font-weight: 600; letter-spacing: .06em; }
+  .sec-lead { color: var(--ink-2); margin: 0 0 14px; }
+
+  /* ---------- status cards ---------- */
+  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .card {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 10px;
+    padding: 14px 14px 12px;
+  }
+  .card-label { font-size: .72rem; color: var(--ink-3); letter-spacing: .06em; text-transform: uppercase; }
+  .card-value { font-family: "Fraunces", serif; font-size: 1.15rem; color: var(--teal-deep); margin-top: 2px; font-weight: 600; }
+  .card-meta { font-size: .8rem; color: var(--ink-3); margin-top: 6px; }
+  .pill {
+    display: inline-block; font-size: .68rem; padding: 2px 8px; border-radius: 999px;
+    font-weight: 600; letter-spacing: .03em; text-transform: uppercase; vertical-align: middle;
+  }
+  .pill-ok { background: #E2F1E0; color: #1F6131; }
+  .pill-pending { background: var(--saffron-soft); color: #7A4500; }
+  .pill-todo { background: var(--cream); color: var(--ink-3); }
+  .pill-warn { background: var(--chili-soft); color: var(--chili); }
+
+  /* ---------- callouts ---------- */
+  .callout {
+    border: 1px solid var(--line); border-left-width: 4px;
+    background: var(--cream); border-radius: 8px;
+    padding: 12px 14px; margin: 12px 0;
+  }
+  .callout h4 { margin-top: 0; }
+  .callout-warn { border-left-color: var(--chili); background: var(--chili-soft); }
+  .callout-warn h4 { color: var(--chili); }
+  .callout-info { border-left-color: var(--teal); background: var(--teal-soft); }
+  .callout-info h4 { color: var(--teal-deep); }
+  .callout-tip { border-left-color: var(--saffron); background: var(--saffron-soft); }
+  .callout-tip h4 { color: #7A4500; }
+
+  /* ---------- tables ---------- */
+  .table-wrap { overflow-x: auto; margin: 8px 0 14px; }
+  table { width: 100%; border-collapse: collapse; min-width: 480px; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); font-size: .9rem; vertical-align: top; }
+  thead th { background: var(--cream); color: var(--brown); font-weight: 600; font-size: .82rem; text-transform: uppercase; letter-spacing: .03em; }
+  tbody tr:hover { background: var(--cream); }
+
+  /* ---------- checklists ---------- */
+  .check { display: flex; gap: 10px; align-items: flex-start; padding: 8px 4px; border-radius: 6px; }
+  .check:hover { background: var(--cream); }
+  .check input[type="checkbox"] {
+    appearance: none; -webkit-appearance: none;
+    width: 18px; height: 18px; flex: 0 0 18px;
+    border: 1.5px solid var(--ink-3); border-radius: 4px; background: var(--paper);
+    cursor: pointer; margin-top: 3px;
+    display: grid; place-items: center;
+    transition: border-color .12s, background .12s;
+  }
+  .check input[type="checkbox"]:hover { border-color: var(--teal); }
+  .check input[type="checkbox"]:checked { background: var(--teal); border-color: var(--teal); }
+  .check input[type="checkbox"]:checked::after {
+    content: ""; width: 5px; height: 9px; border: solid #fff;
+    border-width: 0 2px 2px 0; transform: rotate(45deg) translate(-1px, -1px);
+  }
+  .check label { font-size: .92rem; color: var(--ink); cursor: pointer; flex: 1; }
+  .check .meta { color: var(--ink-3); font-size: .8rem; margin-top: 2px; display: block; }
+  .check input[type="checkbox"]:checked + label { text-decoration: line-through; color: var(--ink-3); }
+
+  /* ---------- notes textarea ---------- */
+  .note-block { margin-top: 10px; }
+  .note-block label { font-size: .78rem; color: var(--ink-3); display: block; margin-bottom: 4px; letter-spacing: .03em; text-transform: uppercase; }
+  .note-block textarea {
+    width: 100%; min-height: 70px; resize: vertical;
+    border: 1px solid var(--line); border-radius: 8px;
+    padding: 10px 12px; font-family: inherit; font-size: .9rem;
+    background: var(--cream); color: var(--ink); outline: none;
+    transition: border-color .15s, background .15s;
+  }
+  .note-block textarea:focus { border-color: var(--teal); background: var(--paper); }
+
+  /* ---------- progress bar ---------- */
+  .progress { background: var(--cream); border-radius: 999px; height: 8px; overflow: hidden; margin: 6px 0 10px; }
+  .progress > span { display: block; height: 100%; background: linear-gradient(90deg, var(--saffron), var(--teal)); border-radius: 999px; transition: width .25s; }
+
+  /* ---------- footer ---------- */
+  footer { color: var(--ink-3); font-size: .8rem; margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--line); }
+
+  /* ---------- mobile ---------- */
+  @media (max-width: 880px) {
+    .shell { grid-template-columns: 1fr; }
+    .sidebar {
+      position: fixed; left: 0; top: 0; height: 100vh; width: 270px; z-index: 50;
+      transform: translateX(-100%); transition: transform .22s ease-out;
+      box-shadow: 4px 0 20px rgba(0,0,0,.08);
+    }
+    .sidebar.open { transform: translateX(0); }
+    .scrim {
+      position: fixed; inset: 0; background: rgba(20,58,51,.35); z-index: 40;
+      opacity: 0; pointer-events: none; transition: opacity .22s;
+    }
+    .scrim.show { opacity: 1; pointer-events: auto; }
+    .menu-btn { display: inline-grid; place-items: center; }
+    .main { padding: 18px 16px 60px; }
+  }
+
+  @media print {
+    .gate, .sidebar, .menu-btn, .actions, .scrim { display: none !important; }
+    .shell { grid-template-columns: 1fr; }
+    section { box-shadow: none; border: 0; padding: 0; margin-bottom: 18px; page-break-inside: avoid; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== PASSWORD GATE ===================== -->
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <div class="gate-mark">Desi Monk Kitchen</div>
+    <h1>Internal Tracker</h1>
+    <p>Confidential — for owner & team only</p>
+    <input id="gatePass" type="password" autocomplete="off" inputmode="text" placeholder="Enter password" />
+    <button id="gateBtn" type="button">Unlock</button>
+    <div class="gate-error" id="gateErr"></div>
+    <div class="gate-hint">Default password is <code>desimonk2026</code> — change it by editing the file.</div>
+  </div>
+</div>
+
+<!-- ===================== APP ===================== -->
+<div class="shell" id="app" hidden>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-mark">DM</div>
+      <div>
+        <div class="brand-name">Desi Monk Kitchen</div>
+        <div class="brand-sub">Operations Tracker</div>
+      </div>
+    </div>
+    <nav class="nav" id="nav">
+      <a href="#dashboard"      data-sec="dashboard"><span class="nav-num">1</span> Dashboard</a>
+      <a href="#compliance"     data-sec="compliance"><span class="nav-num">2</span> Setup &amp; compliance</a>
+      <a href="#operations"     data-sec="operations"><span class="nav-num">3</span> Daily operations</a>
+      <a href="#menu"           data-sec="menu"><span class="nav-num">4</span> Menu &amp; SKUs</a>
+      <a href="#pricing"        data-sec="pricing"><span class="nav-num">5</span> Pricing &amp; cost</a>
+      <a href="#sourcing"       data-sec="sourcing"><span class="nav-num">6</span> Raw-material sourcing</a>
+      <a href="#packaging"      data-sec="packaging"><span class="nav-num">7</span> Packaging</a>
+      <a href="#aggregators"    data-sec="aggregators"><span class="nav-num">8</span> Swiggy &amp; Zomato</a>
+      <a href="#direct"         data-sec="direct"><span class="nav-num">9</span> Direct channels</a>
+      <a href="#marketing"      data-sec="marketing"><span class="nav-num">10</span> Marketing plan</a>
+      <a href="#research"       data-sec="research"><span class="nav-num">11</span> Industry research</a>
+      <a href="#risks"          data-sec="risks"><span class="nav-num">12</span> Risks &amp; pitfalls</a>
+      <a href="#cashflow"       data-sec="cashflow"><span class="nav-num">13</span> 90-day cash plan</a>
+    </nav>
+  </aside>
+  <div class="scrim" id="scrim"></div>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu">&#9776;</button>
+        <div>
+          <div style="font-family:'Fraunces',serif; font-weight:600; color:var(--teal-deep); font-size:1.2rem;">Internal tracker</div>
+          <div class="saved-tag" id="savedTag">Last saved: —</div>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn" id="btnExport" title="Download a JSON file with all checks &amp; notes — share via WhatsApp">Export JSON</button>
+        <button class="btn" id="btnImport" title="Load a JSON file someone else exported">Import JSON</button>
+        <input type="file" id="fileImport" accept="application/json,.json" hidden />
+        <button class="btn btn-warn" id="btnReset" title="Wipe all checks &amp; notes on this device">Reset</button>
+        <button class="btn" id="btnLock" title="Lock and require password again">Lock</button>
+      </div>
+    </div>
+
+    <!-- ============ 1. DASHBOARD ============ -->
+    <section id="dashboard">
+      <div class="sec-head"><span class="sec-num">01</span></div>
+      <h2 style="margin-top:0">Dashboard</h2>
+      <p class="sec-lead">Single-glance view of where the business stands today. The cards below auto-update as you tick boxes elsewhere.</p>
+
+      <div class="grid">
+        <div class="card">
+          <div class="card-label">FSSAI registration</div>
+          <div class="card-value">Done <span class="pill pill-ok">live</span></div>
+          <div class="card-meta">Certificate in <code>desi-monk-kitchen-fssai.pdf</code>. Display printed copy in the kitchen.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">GST registration</div>
+          <div class="card-value">Filed <span class="pill pill-pending">7 days</span></div>
+          <div class="card-meta">LOA signed. Ready for GSTIN within 7 working days. Watch for any notice via email.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Current account</div>
+          <div class="card-value">In progress <span class="pill pill-pending">1–2 days</span></div>
+          <div class="card-meta">Carry FSSAI, GST acknowledgement, PAN, Aadhar, rental agreement, address proof.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Aggregator onboarding</div>
+          <div class="card-value">Not started <span class="pill pill-todo">to do</span></div>
+          <div class="card-meta">Apply only after GSTIN comes in. Swiggy &amp; Zomato take 7–14 days to approve.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">First test order</div>
+          <div class="card-value">Pending <span class="pill pill-todo">to do</span></div>
+          <div class="card-meta">Cook 2–3 family meals at home, measure cost per plate, record before going live.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Overall progress</div>
+          <div class="card-value" id="progPct">0%</div>
+          <div class="progress"><span id="progBar" style="width:0%"></span></div>
+          <div class="card-meta" id="progText">0 of 0 tasks complete.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-warn" style="margin-top:16px;">
+        <h4>The single most important thing to read first ↓</h4>
+        <p style="margin:0">At <strong>₹120 sell price</strong> on Swiggy/Zomato, after their <strong>~28% commission</strong> you actually receive <strong>≈ ₹86</strong>. If your cost is ₹90 + ₹10 packaging, you <em>lose ₹14 on every aggregator order</em>. Read section <a href="#pricing">5 — Pricing &amp; cost</a> before you go live anywhere.</p>
+      </div>
+    </section>
+
+    <!-- ============ 2. COMPLIANCE ============ -->
+    <section id="compliance">
+      <div class="sec-head"><span class="sec-num">02</span></div>
+      <h2 style="margin-top:0">Setup &amp; compliance</h2>
+      <p class="sec-lead">All licences, registrations and government IDs you need before taking real orders.</p>
+
+      <h3>Already done</h3>
+      <div data-list="compliance-done">
+        <div class="check"><input type="checkbox" id="c-done-1" data-id="c-done-1" checked><label for="c-done-1">FSSAI registration <span class="meta">PDF: <code>desi-monk-kitchen-fssai.pdf</code> — print &amp; pin in the kitchen.</span></label></div>
+        <div class="check"><input type="checkbox" id="c-done-2" data-id="c-done-2" checked><label for="c-done-2">Rental agreement on stamp paper <span class="meta">Stamp ₹85, signed 29-Apr-2026, 11-month tenancy from 10-04-2026.</span></label></div>
+        <div class="check"><input type="checkbox" id="c-done-3" data-id="c-done-3" checked><label for="c-done-3">Letter of Authorisation for GST <span class="meta">Generated &amp; signed: <code>Letter_of_Authorisation_GST.pdf</code>.</span></label></div>
+      </div>
+
+      <h3>In progress</h3>
+      <div data-list="compliance-progress">
+        <div class="check"><input type="checkbox" id="c-prog-1" data-id="c-prog-1"><label for="c-prog-1">GSTIN received <span class="meta">Expected within 7 working days. Save GSTIN, login &amp; password in a password manager — never on paper.</span></label></div>
+        <div class="check"><input type="checkbox" id="c-prog-2" data-id="c-prog-2"><label for="c-prog-2">Current account opened <span class="meta">Recommend a PSU bank or HDFC/ICICI for Swiggy/Zomato payouts. Get a chequebook &amp; debit card same day.</span></label></div>
+        <div class="check"><input type="checkbox" id="c-prog-3" data-id="c-prog-3"><label for="c-prog-3">Bank account linked to Swiggy/Zomato dashboards <span class="meta">Once aggregator portal is live, add IFSC + account number under Settlement Settings.</span></label></div>
+      </div>
+
+      <h3>Still to do</h3>
+      <div data-list="compliance-todo">
+        <div class="check"><input type="checkbox" id="c-todo-1" data-id="c-todo-1"><label for="c-todo-1">Udyam (MSME) registration — free, takes 10 min on <a href="https://udyamregistration.gov.in" target="_blank" rel="noopener">udyamregistration.gov.in</a> <span class="meta">Unlocks priority lending, GeM access, govt subsidies. No cost. Aadhar OTP only.</span></label></div>
+        <div class="check"><input type="checkbox" id="c-todo-2" data-id="c-todo-2"><label for="c-todo-2">Karnataka Shops &amp; Establishments registration <span class="meta">Required if you ever hire one staff member. Apply via Karnataka Labour Dept. portal — ~₹1,000.</span></label></div>
+        <div class="check"><input type="checkbox" id="c-todo-3" data-id="c-todo-3"><label for="c-todo-3">BBMP trade licence <span class="meta">For commercial food prep within Bengaluru limits. Check with local ward office; some home-kitchens are exempt under FSSAI cover but verify.</span></label></div>
+        <div class="check"><input type="checkbox" id="c-todo-4" data-id="c-todo-4"><label for="c-todo-4">Fire-safety NOC (only if commercial gas cylinder &gt; 5kg or LPG bank) <span class="meta">Two domestic 14kg cylinders is borderline. Keep extinguisher (ABC, 2kg) anyway — Swiggy/Zomato kitchen audit asks.</span></label></div>
+        <div class="check"><input type="checkbox" id="c-todo-5" data-id="c-todo-5"><label for="c-todo-5">Health certificate for the cook (Babita Devi) <span class="meta">Annual health check from a govt-recognised lab. Some aggregators ask for this in audits.</span></label></div>
+      </div>
+
+      <div class="note-block">
+        <label>Notes for compliance</label>
+        <textarea data-id="note-compliance" placeholder="Application reference numbers, agent contact, follow-up dates…"></textarea>
+      </div>
+    </section>
+
+    <!-- ============ 3. OPERATIONS ============ -->
+    <section id="operations">
+      <div class="sec-head"><span class="sec-num">03</span></div>
+      <h2 style="margin-top:0">Daily operations</h2>
+      <p class="sec-lead">The actual workflow — what to do each day, when, and in what order. Get this watertight before scaling marketing.</p>
+
+      <h3>Marination &amp; prep — the core question</h3>
+      <p>You asked: should we marinate in the evening for next-day, or marinate in the morning at 5–6 AM? Here's the food-science answer:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>Minimum marination</th><th>Best (flavour)</th><th>Practical plan</th></tr></thead>
+          <tbody>
+            <tr><td>Chicken (curry / kadai / butter)</td><td>2 hr</td><td>6–8 hr</td><td>Marinate <strong>previous night 9–10 PM</strong> after dinner service. Cook from 10 AM next day.</td></tr>
+            <tr><td>Mutton (curry / rogan)</td><td>4 hr</td><td>12–24 hr</td><td>Marinate <strong>previous night 8 PM</strong>. Mutton without long marination = chewy. Pressure-cook 10 AM.</td></tr>
+            <tr><td>Rice (jeera / plain)</td><td>30 min soak</td><td>30 min soak</td><td>Soak fresh every meal. Don't pre-cook the night before — texture suffers.</td></tr>
+            <tr><td>Dal tadka</td><td>—</td><td>—</td><td>Cook fresh in the morning. Tadka <em>just</em> before packing.</td></tr>
+            <tr><td>Chapati / naan dough</td><td>20 min rest</td><td>40 min rest</td><td>Mix dough at 10:30 AM. Roll &amp; cook to order — never pre-roll.</td></tr>
+            <tr><td>Raita</td><td>—</td><td>—</td><td>Whisk fresh that morning; refrigerate in 100 ml cups till order.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <h4>Cold-chain rule</h4>
+        <p style="margin:0">Marinated raw meat must stay below <strong>4 °C</strong>. Buy a small fridge thermometer (₹250). If power goes out for &gt; 2 hours, throw it. One food-poisoning incident on Zomato = your rating crashes from 4.2 to 2.8 in three days and you don't recover.</p>
+      </div>
+
+      <h3>Suggested daily timetable (lunch 12–3:30 + dinner 7–11)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Time</th><th>Task</th></tr></thead>
+          <tbody>
+            <tr><td>05:30</td><td>Wake. Sanitiser wipe-down of counters, gas, fridge handle.</td></tr>
+            <tr><td>06:00</td><td>Buy chicken/mutton if not already in fridge from previous night.</td></tr>
+            <tr><td>06:30</td><td>Wash, cut, wash again. Marinate (if morning route).</td></tr>
+            <tr><td>09:00</td><td>Soak rice. Prep onions / tomatoes / ginger-garlic paste in bulk for the day.</td></tr>
+            <tr><td>10:00</td><td>Start mutton (longest cook). Side: dal.</td></tr>
+            <tr><td>11:00</td><td>Start chicken curry. Cook rice. Make raita.</td></tr>
+            <tr><td>11:45</td><td>Open Swiggy/Zomato dashboards + WhatsApp. Switch shop status to "Open".</td></tr>
+            <tr><td>12:00–15:30</td><td><strong>Lunch service.</strong> Cook chapatis to order. Pack to order.</td></tr>
+            <tr><td>15:45</td><td>Close shop on aggregators. Lunch break.</td></tr>
+            <tr><td>17:00</td><td>Restart prep. Re-cook fresh chicken/mutton (don't reheat lunch leftovers — quality drops).</td></tr>
+            <tr><td>19:00–23:00</td><td><strong>Dinner service.</strong></td></tr>
+            <tr><td>23:00</td><td>Close shop. Clean kitchen top to bottom. Marinate <em>tomorrow morning's</em> mutton.</td></tr>
+            <tr><td>23:30</td><td>Quick stock check: chicken / mutton / rice / oil / gas. Order tomorrow's missing items via Zepto or local mandi WhatsApp.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Daily opening checklist</h3>
+      <div data-list="ops-open">
+        <div class="check"><input type="checkbox" id="o-1"  data-id="o-1"><label for="o-1">Counters &amp; gas stove sanitised</label></div>
+        <div class="check"><input type="checkbox" id="o-2"  data-id="o-2"><label for="o-2">Fridge thermometer reads &lt; 4 °C</label></div>
+        <div class="check"><input type="checkbox" id="o-3"  data-id="o-3"><label for="o-3">Cutting boards: red (raw meat) and green (veg) — separate</label></div>
+        <div class="check"><input type="checkbox" id="o-4"  data-id="o-4"><label for="o-4">Hair tied back, apron on, hands washed with soap (20 sec)</label></div>
+        <div class="check"><input type="checkbox" id="o-5"  data-id="o-5"><label for="o-5">Dustbin liner replaced — meat scraps double-bagged</label></div>
+        <div class="check"><input type="checkbox" id="o-6"  data-id="o-6"><label for="o-6">Gas cylinder weight checked (lift &amp; estimate)</label></div>
+        <div class="check"><input type="checkbox" id="o-7"  data-id="o-7"><label for="o-7">Fire extinguisher visible &amp; in date</label></div>
+        <div class="check"><input type="checkbox" id="o-8"  data-id="o-8"><label for="o-8">Packaging stock counted (containers, lids, paper bags, tamper stickers)</label></div>
+      </div>
+
+      <h3>Daily closing checklist</h3>
+      <div data-list="ops-close">
+        <div class="check"><input type="checkbox" id="o-c1" data-id="o-c1"><label for="o-c1">Mark shop "Closed" on Swiggy &amp; Zomato (don't leave open overnight — auto-cancellations hurt rating)</label></div>
+        <div class="check"><input type="checkbox" id="o-c2" data-id="o-c2"><label for="o-c2">All cooked food finished, donated, or refrigerated within 2 hr of cooking</label></div>
+        <div class="check"><input type="checkbox" id="o-c3" data-id="o-c3"><label for="o-c3">Tomorrow's mutton marinated &amp; in fridge</label></div>
+        <div class="check"><input type="checkbox" id="o-c4" data-id="o-c4"><label for="o-c4">Stove + counters wiped, floor mopped</label></div>
+        <div class="check"><input type="checkbox" id="o-c5" data-id="o-c5"><label for="o-c5">Daily sales logged: orders / GMV / refunds / costs</label></div>
+        <div class="check"><input type="checkbox" id="o-c6" data-id="o-c6"><label for="o-c6">Tomorrow's stock-out list saved to WhatsApp / notes</label></div>
+      </div>
+
+      <div class="note-block">
+        <label>Operations notes</label>
+        <textarea data-id="note-ops" placeholder="Tweaks to the timetable, supplier delays, equipment issues…"></textarea>
+      </div>
+    </section>
+
+    <!-- ============ 4. MENU & SKUs ============ -->
+    <section id="menu">
+      <div class="sec-head"><span class="sec-num">04</span></div>
+      <h2 style="margin-top:0">Menu &amp; SKUs</h2>
+      <p class="sec-lead">Keep the menu small. The biggest mistake first-time cloud kitchens make is launching with 25 items and dying of inventory complexity.</p>
+
+      <div class="callout callout-info">
+        <h4>Rebel Foods / Box8 lesson</h4>
+        <p style="margin:0">Both started with &lt; 8 SKUs and grew only after data showed which sold. With 5 SKUs you can hold ingredient inventory tight; with 25 you waste 30 % to spoilage in week one.</p>
+      </div>
+
+      <h3>Recommended launch menu (≤ 12 SKUs)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>SKU</th><th>Quarter</th><th>Half</th><th>Full</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Chicken curry</td><td>₹120</td><td>₹220</td><td>₹400</td><td>Hero. Boneless option +₹30.</td></tr>
+            <tr><td>Mutton curry</td><td>₹180</td><td>₹340</td><td>₹640</td><td>Premium hero. Pressure-cook 25 min.</td></tr>
+            <tr><td>Kadai chicken</td><td>₹130</td><td>₹240</td><td>—</td><td>Spicier version, same base.</td></tr>
+            <tr><td>Butter chicken</td><td>₹140</td><td>₹260</td><td>—</td><td>Best-seller in 3-km radius, family-friendly.</td></tr>
+            <tr><td>Dal tadka</td><td>₹70</td><td>₹130</td><td>—</td><td>Veg buffer; balances meat-heavy menu.</td></tr>
+            <tr><td>Jeera rice</td><td>₹70</td><td>₹130</td><td>—</td><td>Cheap to make, high margin.</td></tr>
+            <tr><td>Chapati</td><td>₹15/pc</td><td>₹55/4</td><td>₹100/8</td><td>Make-to-order. Stays soft 90 min.</td></tr>
+            <tr><td>Butter naan</td><td>₹35/pc</td><td>—</td><td>—</td><td>Add-on, small demand but raises ticket.</td></tr>
+            <tr><td>Combo: chicken meal</td><td colspan="3">₹150 (¼ chicken + 4 chapati / rice + raita)</td><td>The launch hero combo.</td></tr>
+            <tr><td>Combo: mutton meal</td><td colspan="3">₹220 (¼ mutton + 4 chapati / rice + raita)</td><td>Premium combo.</td></tr>
+            <tr><td>Family pack — chicken</td><td colspan="3">₹780 (½ chicken + dal + 8 chapati + 1 L rice + raita + salad)</td><td>Sunday seller.</td></tr>
+            <tr><td>Family pack — mutton</td><td colspan="3">₹880 (½ mutton + dal + 8 chapati + 1 L rice + raita + salad)</td><td>"Sunday Feast" — push it on Saturday WhatsApp.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Combo design rules</h3>
+      <ul>
+        <li>Every combo must contain <strong>one carb</strong> (rice or chapati), <strong>one protein</strong>, <strong>one wet</strong> (raita / dal), and <strong>one tiny garnish</strong> (salad / papad / pickle). Even ₹5-cost garnish lifts perceived value 30 %.</li>
+        <li>Family packs: keep components <em>separate</em> in the box (4-compartment thali style). Mixing rice + curry kills shelf life inside 30 min.</li>
+        <li>Don't offer too many add-ons on aggregators — every checkbox is one more thing to mis-pick during dinner rush.</li>
+      </ul>
+
+      <h3>Container sizing — bookmark this</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Use</th><th>Container</th><th>Approx volume</th><th>Buy</th></tr></thead>
+          <tbody>
+            <tr><td>Quarter chicken / mutton (3–4 pc + gravy)</td><td>Round aluminium foil with paper lid</td><td>250 ml</td><td>Pack of 100 ≈ ₹250</td></tr>
+            <tr><td>Half chicken / mutton (6–8 pc + gravy)</td><td>Round aluminium foil with paper lid</td><td>500 ml</td><td>Pack of 100 ≈ ₹400</td></tr>
+            <tr><td>Full chicken (10–12 pc + gravy)</td><td>Rectangular aluminium with lid</td><td>750 ml</td><td>Pack of 100 ≈ ₹600</td></tr>
+            <tr><td>Rice — solo</td><td>Round aluminium</td><td>250 ml</td><td>Pack of 100 ≈ ₹250</td></tr>
+            <tr><td>Rice — family</td><td>Rectangular aluminium</td><td>1000 ml</td><td>Pack of 100 ≈ ₹800</td></tr>
+            <tr><td>Dal / curry — solo</td><td>Round microwavable plastic + snap lid</td><td>250 ml</td><td>Pack of 100 ≈ ₹350</td></tr>
+            <tr><td>Raita</td><td>Plastic dip cup with lid (leakproof)</td><td>100 ml</td><td>Pack of 100 ≈ ₹120</td></tr>
+            <tr><td>Salad / papad</td><td>Paper food pouch</td><td>—</td><td>Pack of 100 ≈ ₹100</td></tr>
+            <tr><td>Chapati</td><td>Aluminium foil sheet + paper bag (keeps soft)</td><td>—</td><td>Pack of 100 ≈ ₹150</td></tr>
+            <tr><td>Family pack outer</td><td>4-compartment thali, rectangular</td><td>1500 ml</td><td>Pack of 100 ≈ ₹1,200</td></tr>
+            <tr><td>Delivery carry bag</td><td>Brown paper bag with handle, brand sticker</td><td>—</td><td>Pack of 100 ≈ ₹200</td></tr>
+            <tr><td>Tamper-evident seal</td><td>Sticker — "Sealed for hygiene"</td><td>—</td><td>Roll of 500 ≈ ₹250</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="font-size:.88rem; color:var(--ink-3);">Approx prices from IndiaMART / Avenue-Road wholesale, May 2026. Always quote at least 3 vendors.</p>
+
+      <div class="note-block">
+        <label>Menu / container notes</label>
+        <textarea data-id="note-menu" placeholder="Combo tweaks, customer feedback, container vendor quotes…"></textarea>
+      </div>
+    </section>
+
+    <!-- ============ 5. PRICING ============ -->
+    <section id="pricing">
+      <div class="sec-head"><span class="sec-num">05</span></div>
+      <h2 style="margin-top:0">Pricing &amp; cost</h2>
+      <p class="sec-lead">This section will save or sink the business. Read it slowly.</p>
+
+      <div class="callout callout-warn">
+        <h4>The aggregator commission trap</h4>
+        <p>Swiggy and Zomato take <strong>22 – 26 % commission</strong> on the order value plus <strong>18 % GST on commission</strong>. Add payment gateway (~2 %) and offer share (often forced). Net loss to platform: <strong>≈ 28 %</strong>.</p>
+        <p>If you list at ₹120, the platform pays you back ₹120 × (1 − 0.28) <strong>= ≈ ₹86</strong>.</p>
+        <p style="margin-bottom:0">If your cost-of-goods is ₹90 and packaging is ₹10, you <em>lose ₹14 per order</em>. Marketing it more = bleeding faster.</p>
+      </div>
+
+      <h3>Two prices, one menu</h3>
+      <p>The fix is <strong>aggregator menu price ≠ direct menu price</strong>. Almost every successful cloud kitchen does this. Most aggregators allow it; some flag it but don't enforce.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Channel</th><th>Listed price (chicken meal)</th><th>You receive</th><th>Cost</th><th>Profit</th></tr></thead>
+          <tbody>
+            <tr><td>Swiggy / Zomato</td><td>₹185</td><td>₹133</td><td>₹100</td><td><strong>+₹33</strong></td></tr>
+            <tr><td>Direct WhatsApp / Instagram</td><td>₹150</td><td>₹150</td><td>₹100</td><td><strong>+₹50</strong></td></tr>
+            <tr><td>Walk-in / pickup</td><td>₹140</td><td>₹140</td><td>₹100</td><td><strong>+₹40</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Same plate, three prices. The customer paying ₹185 on Swiggy is paying for the convenience and the platform's marketing. The customer ordering directly gets a better deal — and reorders without the platform middle-manning.</p>
+
+      <h3>Item cost-sheet template</h3>
+      <p>Fill in real numbers as you cook each dish twice and weigh ingredients.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Component</th><th>Qty / plate</th><th>Rate</th><th>Cost</th></tr></thead>
+          <tbody>
+            <tr><td>Chicken (boneless)</td><td>180 g</td><td>₹260/kg</td><td>₹47</td></tr>
+            <tr><td>Onion / tomato / ginger-garlic</td><td>120 g</td><td>₹40/kg avg</td><td>₹5</td></tr>
+            <tr><td>Oil &amp; ghee</td><td>20 ml</td><td>₹160/L</td><td>₹3</td></tr>
+            <tr><td>Spices (whole &amp; powdered)</td><td>—</td><td>—</td><td>₹6</td></tr>
+            <tr><td>Rice / chapati</td><td>150 g rice or 4 roti</td><td>—</td><td>₹15</td></tr>
+            <tr><td>Raita + salad</td><td>—</td><td>—</td><td>₹6</td></tr>
+            <tr><td>Gas / electricity</td><td>—</td><td>—</td><td>₹4</td></tr>
+            <tr><td>Packaging (3 containers + bag + sticker)</td><td>—</td><td>—</td><td>₹10</td></tr>
+            <tr><td colspan="3"><strong>Total cost per chicken meal</strong></td><td><strong>≈ ₹96</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="font-size:.88rem; color:var(--ink-3);">Indicative numbers — re-measure with your actual chicken supplier. Mutton meal lands at ≈ ₹165 cost.</p>
+
+      <h3>Discount / launch-offer rules</h3>
+      <ul>
+        <li>The "30 % off first 6 months" idea is fine <strong>only on direct channels</strong>. On aggregators that becomes free food for them.</li>
+        <li>On Swiggy / Zomato, use their own "Restaurant Funded Offer" tool sparingly — never &gt; 20 %.</li>
+        <li>Better than discount: <strong>add a free raita</strong> or <strong>free dal cup</strong>. Costs you ₹6, customer values it at ₹40.</li>
+      </ul>
+
+      <h3>Pricing decisions to make</h3>
+      <div data-list="price-decisions">
+        <div class="check"><input type="checkbox" id="p-1" data-id="p-1"><label for="p-1">Set Swiggy/Zomato menu price = direct price × 1.45 (round to ₹5)</label></div>
+        <div class="check"><input type="checkbox" id="p-2" data-id="p-2"><label for="p-2">Cook 5 plates of chicken curry at home and weigh the actual cost — replace the ₹96 estimate above</label></div>
+        <div class="check"><input type="checkbox" id="p-3" data-id="p-3"><label for="p-3">Decide MOQ for free delivery (current: ₹150) — keep it</label></div>
+        <div class="check"><input type="checkbox" id="p-4" data-id="p-4"><label for="p-4">Lock launch-discount duration (90 days, not 6 months — long discounts erode brand)</label></div>
+        <div class="check"><input type="checkbox" id="p-5" data-id="p-5"><label for="p-5">Decide cancellation rule: aggregator orders lost &gt; 20 min = call customer + refund partial (saves rating)</label></div>
+      </div>
+
+      <div class="note-block">
+        <label>Pricing notes</label>
+        <textarea data-id="note-pricing" placeholder="Real cost numbers, supplier price changes, profit per channel…"></textarea>
+      </div>
+    </section>
+
+    <!-- ============ 6. SOURCING ============ -->
+    <section id="sourcing">
+      <div class="sec-head"><span class="sec-num">06</span></div>
+      <h2 style="margin-top:0">Raw-material sourcing</h2>
+      <p class="sec-lead">A 5 % cheaper supplier on chicken changes your monthly profit by ₹8,000 at 30 plates a day. Sourcing is profit.</p>
+
+      <h3>Where to buy what (Bommanahalli / Roopena Agrahara)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>Channel A (cheap, manual)</th><th>Channel B (slightly costlier, doorstep)</th><th>Pick</th></tr></thead>
+          <tbody>
+            <tr><td>Chicken (live / dressed)</td><td>Local Roopena Agrahara meat shop, 6 AM</td><td>Licious B2B / Suguna Daily Fresh</td><td>Local for cost, Licious for backup days</td></tr>
+            <tr><td>Mutton</td><td>Local butcher (Bommanahalli signal)</td><td>Tendercuts / Licious B2B</td><td>Local — 2 vendors, alternate</td></tr>
+            <tr><td>Rice (Sona Masoori)</td><td>K R Market wholesale, ₹52/kg in 25 kg bag</td><td>Provision store, ₹62/kg</td><td>Wholesale 25 kg every 2 weeks</td></tr>
+            <tr><td>Atta</td><td>Mill-fresh from a chakki near Silk Board</td><td>Aashirvaad ₹55/kg</td><td>Chakki — fresher, ₹15 cheaper</td></tr>
+            <tr><td>Oil (sunflower)</td><td>Kirana wholesale ₹140/L (15 L tin)</td><td>Big Bazaar / DMart ₹160/L</td><td>Wholesale tin</td></tr>
+            <tr><td>Whole &amp; ground spices</td><td>K R Market — ₹40 % cheaper</td><td>Local kirana</td><td>K R Market once a month</td></tr>
+            <tr><td>Onion / tomato / chillies / coriander</td><td>HSR / Silk Board mandi 6 AM</td><td>Zepto / Blinkit (only emergency)</td><td>Mandi alternate days</td></tr>
+            <tr><td>Curd (raita)</td><td>Heritage / Nandini 5 kg crate</td><td>Provision store 1 kg packs</td><td>5 kg crate</td></tr>
+            <tr><td>Eggs</td><td>NECC distributor, 30-egg tray</td><td>Local kirana</td><td>Distributor</td></tr>
+            <tr><td>Gas (LPG)</td><td>Domestic 14.2 kg cylinder via dealer</td><td>Commercial 19 kg</td><td>Domestic for now; commercial when daily orders &gt; 25</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Chicken sourcing — practical tips</h3>
+      <ul>
+        <li>1 kg dressed chicken (skinless, with bone) = 4 quarter portions of 180–200 g cooked weight.</li>
+        <li>Fresh > frozen. Frozen chicken loses 12–15 % weight on thaw and tastes flat.</li>
+        <li>Negotiate per-kg rate at fixed quantity. Ex: "I'll pick 8 kg every morning at 6 AM, give me ₹250/kg flat." Local shops always say yes for guaranteed daily volume.</li>
+        <li>Always buy 10 % more than forecast — running out at 2 PM = lost orders + bad reviews.</li>
+      </ul>
+
+      <h3>Mutton sourcing</h3>
+      <ul>
+        <li>Sunday is mutton day in Bengaluru — mandi prices spike. Buy Saturday evening, marinate overnight, cook Sunday morning.</li>
+        <li>Always have 2 butchers on rotation. One will let you down at the worst possible time.</li>
+        <li>Ask for "front leg + shoulder" mix — best gravy meat. Avoid pure ribs unless customer specifies.</li>
+      </ul>
+
+      <h3>Sourcing tasks</h3>
+      <div data-list="sourcing-todo">
+        <div class="check"><input type="checkbox" id="s-1" data-id="s-1"><label for="s-1">Lock daily chicken vendor at fixed rate (target ₹250–260/kg dressed)</label></div>
+        <div class="check"><input type="checkbox" id="s-2" data-id="s-2"><label for="s-2">Lock 2 mutton vendors — alternate days</label></div>
+        <div class="check"><input type="checkbox" id="s-3" data-id="s-3"><label for="s-3">Buy first 25 kg rice wholesale + atta from chakki</label></div>
+        <div class="check"><input type="checkbox" id="s-4" data-id="s-4"><label for="s-4">K R Market trip — full month spice stock + oil tin</label></div>
+        <div class="check"><input type="checkbox" id="s-5" data-id="s-5"><label for="s-5">Save vendor names + WhatsApp numbers in a single contact group "DMK Suppliers"</label></div>
+      </div>
+
+      <div class="note-block">
+        <label>Sourcing notes / vendor list</label>
+        <textarea data-id="note-sourcing" placeholder="Vendor name | Phone | Item | Rate | Last paid | Notes…"></textarea>
+      </div>
+    </section>
+
+    <!-- ============ 7. PACKAGING ============ -->
+    <section id="packaging">
+      <div class="sec-head"><span class="sec-num">07</span></div>
+      <h2 style="margin-top:0">Packaging</h2>
+      <p class="sec-lead">Packaging is where amateurs spot themselves. Good packaging = better photos in customer's hand = more reviews = more orders.</p>
+
+      <h3>Packaging-partner candidates (Bengaluru)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Vendor</th><th>What they do well</th><th>How to contact</th></tr></thead>
+          <tbody>
+            <tr><td>Bizongo</td><td>Custom-printed boxes, MOQ ~1000, brand stickers</td><td>bizongo.com / Bengaluru sales rep</td></tr>
+            <tr><td>Banopack (IndiaMART)</td><td>Aluminium &amp; PP containers, low MOQ 100 each</td><td>indiamart.com → search "food container Bengaluru"</td></tr>
+            <tr><td>Pack&amp;Wrap (Avenue Road)</td><td>Walk-in wholesale, instant pickup</td><td>Visit shop directly — cheapest for first month</td></tr>
+            <tr><td>Stickerit / VistaPrint</td><td>Brand stickers, tamper-evident seals</td><td>vistaprint.in for first batch of 500 stickers</td></tr>
+            <tr><td>Vijay Industries (Chickpet)</td><td>Paper bags, brown carry bags with logo print</td><td>Chickpet wholesale street, ask for "food paper bag"</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Brand stickers — what to print</h3>
+      <ul>
+        <li>Brand logo + name in saffron/teal (use the brand kit in <code>assets/images/brand/</code>)</li>
+        <li>FSSAI number (mandatory!)</li>
+        <li>Phone number for direct orders / WhatsApp QR</li>
+        <li>"Sealed for your hygiene — open at home" — psychology of trust</li>
+        <li>Small "Thank you 🙏" handwritten note inside family packs (free, hugely effective)</li>
+      </ul>
+
+      <div class="callout callout-tip">
+        <h4>Cheap hack: the QR-on-the-bag move</h4>
+        <p style="margin:0">Print a sticker with a QR linking to your WhatsApp Business catalog (<code>https://wa.me/91XXXXXXXXXX</code>). Every aggregator order delivered = a chance to convert that customer to a direct order next time. Customer scans → orders ₹150 not ₹185, you keep ₹50 not ₹33.</p>
+      </div>
+
+      <h3>Packaging tasks</h3>
+      <div data-list="pack-todo">
+        <div class="check"><input type="checkbox" id="pk-1" data-id="pk-1"><label for="pk-1">First-week packaging stock: 200× 250 ml + 100× 500 ml + 100× rice + 100× raita cups + 100× paper bags + 500 tamper stickers</label></div>
+        <div class="check"><input type="checkbox" id="pk-2" data-id="pk-2"><label for="pk-2">Design + print 500 brand stickers (logo, FSSAI #, WhatsApp QR)</label></div>
+        <div class="check"><input type="checkbox" id="pk-3" data-id="pk-3"><label for="pk-3">Get a 4-compartment thali sample for family pack — test heat retention 90 min</label></div>
+        <div class="check"><input type="checkbox" id="pk-4" data-id="pk-4"><label for="pk-4">Heat-test: pack a chicken curry, leave 60 min, reheat — verify no gravy leak through aluminium seam</label></div>
+        <div class="check"><input type="checkbox" id="pk-5" data-id="pk-5"><label for="pk-5">Settle on one packaging partner for monthly resupply (Bizongo or Banopack)</label></div>
+      </div>
+
+      <div class="note-block">
+        <label>Packaging notes</label>
+        <textarea data-id="note-pack" placeholder="Vendor quotes, sample reviews, leak test results…"></textarea>
+      </div>
+    </section>
+
+    <!-- ============ 8. AGGREGATORS ============ -->
+    <section id="aggregators">
+      <div class="sec-head"><span class="sec-num">08</span></div>
+      <h2 style="margin-top:0">Swiggy &amp; Zomato onboarding</h2>
+      <p class="sec-lead">7–14 days each from application to live menu. Don't wait for 100 % perfection — get applications in the moment GST is approved.</p>
+
+      <h3>Documents you'll be asked for</h3>
+      <div data-list="agg-docs">
+        <div class="check"><input type="checkbox" id="a-d1" data-id="a-d1"><label for="a-d1">FSSAI certificate (PDF)</label></div>
+        <div class="check"><input type="checkbox" id="a-d2" data-id="a-d2"><label for="a-d2">GSTIN certificate (PDF)</label></div>
+        <div class="check"><input type="checkbox" id="a-d3" data-id="a-d3"><label for="a-d3">PAN card (proprietor — Babita Devi) (PDF / image)</label></div>
+        <div class="check"><input type="checkbox" id="a-d4" data-id="a-d4"><label for="a-d4">Aadhar card (front + back, image)</label></div>
+        <div class="check"><input type="checkbox" id="a-d5" data-id="a-d5"><label for="a-d5">Cancelled cheque or current-account statement (for payouts)</label></div>
+        <div class="check"><input type="checkbox" id="a-d6" data-id="a-d6"><label for="a-d6">Address proof — rental agreement (PDF)</label></div>
+        <div class="check"><input type="checkbox" id="a-d7" data-id="a-d7"><label for="a-d7">Menu PDF with photos (use website-quality 1024 ×1024 JPGs)</label></div>
+        <div class="check"><input type="checkbox" id="a-d8" data-id="a-d8"><label for="a-d8">Restaurant + kitchen photos (clean, well-lit) — 4–5 images each</label></div>
+        <div class="check"><input type="checkbox" id="a-d9" data-id="a-d9"><label for="a-d9">Owner photo &amp; signature</label></div>
+      </div>
+
+      <h3>Swiggy partner — onboarding flow</h3>
+      <ol>
+        <li>Apply at <a href="https://partner.swiggy.com" target="_blank" rel="noopener">partner.swiggy.com</a>. Fill business details using GSTIN address.</li>
+        <li>Upload all docs above. Cuisine: <em>North Indian / Mughlai</em>. Service type: <em>Cloud kitchen</em>.</li>
+        <li>Wait 3–5 days for first call-back from onboarding manager. Save their direct phone — you'll need them later for menu changes.</li>
+        <li>Sign digital agreement. Commission starts at 22 %, will rise to 24–26 % after first promo participation.</li>
+        <li>Build menu in their dashboard. Each item: name, description (≤ 150 chars), price, photo, in-stock toggle, prep-time.</li>
+        <li>Switch shop to "Live" — first orders trickle in within 24 hr.</li>
+      </ol>
+
+      <h3>Zomato partner — onboarding flow</h3>
+      <ol>
+        <li>Apply at <a href="https://www.zomato.com/partner-with-us" target="_blank" rel="noopener">zomato.com/partner-with-us</a>.</li>
+        <li>Same docs as Swiggy. Add menu via Zomato Restaurant Partner app.</li>
+        <li>Zomato is stricter on photos — they'll reject low-light shots. Re-shoot if asked.</li>
+        <li>Commission: starts ~22 %, can hit 28 % with promos.</li>
+        <li>Once live, immediately enable: <em>Pre-order</em>, <em>Free delivery</em> sub-zone, <em>Auto-accept orders</em>.</li>
+      </ol>
+
+      <div class="callout callout-info">
+        <h4>The "Hyperpure" question</h4>
+        <p style="margin:0">Zomato will pitch you Hyperpure (their B2B supply arm) — chicken, oil, packaging at "competitive prices". Reality: rates are 5–10 % above local mandi for chicken. Useful only for stuff you can't find locally (specific cheese, frozen items). Don't migrate everything to Hyperpure — vendor lock-in.</p>
+      </div>
+
+      <h3>Aggregator launch checklist</h3>
+      <div data-list="agg-launch">
+        <div class="check"><input type="checkbox" id="a-l1" data-id="a-l1"><label for="a-l1">Both apps approved and shop status = Live</label></div>
+        <div class="check"><input type="checkbox" id="a-l2" data-id="a-l2"><label for="a-l2">Menu prices set <em>different</em> from direct prices (≈ 1.45×)</label></div>
+        <div class="check"><input type="checkbox" id="a-l3" data-id="a-l3"><label for="a-l3">Item-level photos uploaded (no stock images!)</label></div>
+        <div class="check"><input type="checkbox" id="a-l4" data-id="a-l4"><label for="a-l4">Prep-time set realistically (25 min for curry, 10 min for combos)</label></div>
+        <div class="check"><input type="checkbox" id="a-l5" data-id="a-l5"><label for="a-l5">Auto-accept enabled — manual accept costs you a rating point</label></div>
+        <div class="check"><input type="checkbox" id="a-l6" data-id="a-l6"><label for="a-l6">First "10 % off ₹150+" launch promo created (own-funded)</label></div>
+        <div class="check"><input type="checkbox" id="a-l7" data-id="a-l7"><label for="a-l7">Shop hours set: 11:30–15:30 + 19:00–22:30 (don't try 24×7)</label></div>
+        <div class="check"><input type="checkbox" id="a-l8" data-id="a-l8"><label for="a-l8">QR + brand sticker designed for inserting in every order</label></div>
+      </div>
+
+      <div class="note-block">
+        <label>Aggregator notes</label>
+        <textarea data-id="note-agg" placeholder="Onboarding-manager names, application IDs, dates of expected go-live…"></textarea>
+      </div>
+    </section>
+
+    <!-- ============ 9. DIRECT CHANNELS ============ -->
+    <section id="direct">
+      <div class="sec-head"><span class="sec-num">09</span></div>
+      <h2 style="margin-top:0">Direct ordering channels</h2>
+      <p class="sec-lead">These are the channels where you keep 100 % of the price. Build them from day one — by month 3 they should be 30–40 % of orders.</p>
+
+      <h3>WhatsApp Business — your single most important channel</h3>
+      <ol>
+        <li>Install <strong>WhatsApp Business</strong> on the kitchen phone (separate number from personal).</li>
+        <li>Set up Catalog: every menu item with a 1024 × 1024 photo, name, price.</li>
+        <li>Set <em>Greeting message</em>, <em>Away message</em>, <em>Quick replies</em> ("Order placed", "ETA 30 min", "Out for delivery").</li>
+        <li>Generate a <code>https://wa.me/91XXXXXXXXXX?text=Hi</code> short link → put it on the website, every paper bag QR sticker, every Instagram bio.</li>
+        <li>Use <strong>Labels</strong>: "New", "Repeat", "Family-pack regular", "Refunded" — these become your CRM.</li>
+      </ol>
+
+      <h3>Instagram — slow burn, brand building</h3>
+      <ul>
+        <li>Bio: <em>"Home-cooked North Indian, Bommanahalli · 12–15:30 / 19–23 · WhatsApp →"</em> + the wa.me link.</li>
+        <li>Post 4× per week: 2 dishes + 1 behind-the-scenes (Babita cooking) + 1 customer review. Reels &gt; static photos.</li>
+        <li>Hashtags: localised — <code>#bommanahalli #silkboard #btmlayout #bangalorefoodies #homefoodbangalore</code>.</li>
+        <li>Run a tiny Meta ad: ₹500/day, click-to-WhatsApp, audience = Bengaluru + 3 km of Bommanahalli, age 25–45. Optimise for "Engagement" first 2 weeks; switch to "Messages" once posts are warm.</li>
+      </ul>
+
+      <h3>Google Business Profile — most-skipped, highest ROI</h3>
+      <ul>
+        <li>Free. Claim your kitchen on <a href="https://business.google.com" target="_blank" rel="noopener">business.google.com</a>.</li>
+        <li>Verification: by post (5–7 days) or video. Use video — instant.</li>
+        <li>Post photos, hours, phone, WhatsApp link. People searching "home food near me" or "tiffin Bommanahalli" find you free.</li>
+      </ul>
+
+      <h3>Pamphlets / society distribution</h3>
+      <ul>
+        <li>1,000 A5 colour pamphlets ≈ ₹1,500–2,000. Print menu (8 SKUs max, photo per item) + WhatsApp QR + 10 % off first order coupon code.</li>
+        <li>Distribution: pay a young helper ₹600/day to slip pamphlets under apartment doors in Sakshi Heights, Brigade, etc., 6–8 PM (before dinner).</li>
+        <li>Use a unique coupon code per pamphlet batch ("PAMPH1") so you can measure ROI in WhatsApp orders.</li>
+      </ul>
+
+      <h3>Direct-channel tasks</h3>
+      <div data-list="direct-todo">
+        <div class="check"><input type="checkbox" id="d-1" data-id="d-1"><label for="d-1">WhatsApp Business installed + Catalog populated with 12 SKU photos</label></div>
+        <div class="check"><input type="checkbox" id="d-2" data-id="d-2"><label for="d-2">Instagram handle <code>@desimonkkitchen</code> created + bio + first 9 posts queued</label></div>
+        <div class="check"><input type="checkbox" id="d-3" data-id="d-3"><label for="d-3">Google Business Profile verified</label></div>
+        <div class="check"><input type="checkbox" id="d-4" data-id="d-4"><label for="d-4">Website footer + every page has working WhatsApp link (replace <code>+91-XXXXX-XXXXX</code>)</label></div>
+        <div class="check"><input type="checkbox" id="d-5" data-id="d-5"><label for="d-5">First 1,000-pamphlet print with QR &amp; coupon code</label></div>
+        <div class="check"><input type="checkbox" id="d-6" data-id="d-6"><label for="d-6">First Meta click-to-WhatsApp ad — ₹500/day for 7 days</label></div>
+        <div class="check"><input type="checkbox" id="d-7" data-id="d-7"><label for="d-7">Repeat-customer SOP: send a thank-you WhatsApp 2 hr after delivery, ask for 1-line review</label></div>
+      </div>
+
+      <div class="note-block">
+        <label>Direct-channel notes</label>
+        <textarea data-id="note-direct" placeholder="Coupon codes used, ad results, pamphlet ROI, WhatsApp labels…"></textarea>
+      </div>
+    </section>
+
+    <!-- ============ 10. MARKETING ============ -->
+    <section id="marketing">
+      <div class="sec-head"><span class="sec-num">10</span></div>
+      <h2 style="margin-top:0">Marketing plan — 30 / 60 / 90 days</h2>
+      <p class="sec-lead">A simple month-by-month sequence so you don't burn cash on the wrong channel at the wrong time.</p>
+
+      <h3>Month 1 — survive &amp; learn</h3>
+      <ul>
+        <li>Goal: 5 orders/day average, ratings ≥ 4.2 on both apps, zero food-poisoning complaints.</li>
+        <li>Budget: ₹3,000 — pamphlets only. No paid digital yet.</li>
+        <li>Why no ads: aggregator algorithm will boost any new restaurant for 30 days regardless. Don't spend on top of free boost.</li>
+        <li>What you watch every night: rating, % of 5★ reviews, average prep time, # of cancellations.</li>
+      </ul>
+
+      <h3>Month 2 — turn on the funnel</h3>
+      <ul>
+        <li>Goal: 10–15 orders/day, ≥ 30 % from direct channels.</li>
+        <li>Budget: ₹6,000 — Meta click-to-WhatsApp ad ₹500/day × 8 days + ₹2,000 second pamphlet drop.</li>
+        <li>Test a referral mechanic: "Send your friend a free raita — they get ₹30 off, you get ₹30 off."</li>
+        <li>Run one Swiggy/Zomato own-funded promo: 10 % off above ₹200, Friday–Sunday only.</li>
+      </ul>
+
+      <h3>Month 3 — find what scales</h3>
+      <ul>
+        <li>Goal: 25 orders/day, profitable on direct channels, breakeven on aggregators.</li>
+        <li>Budget: ₹10,000.</li>
+        <li>Pick one winning channel (likely WhatsApp + GBP) and double down.</li>
+        <li>Start collecting customer phone numbers in a Google Sheet → bulk WhatsApp Sunday-feast push every Saturday night.</li>
+        <li>Decide: do you need a part-time helper for delivery / roti-making? At 25 orders/day, yes.</li>
+      </ul>
+
+      <h3>Marketing tasks</h3>
+      <div data-list="marketing-todo">
+        <div class="check"><input type="checkbox" id="m-1" data-id="m-1"><label for="m-1">Decide who owns marketing — name a single person (you or family member)</label></div>
+        <div class="check"><input type="checkbox" id="m-2" data-id="m-2"><label for="m-2">Set monthly budget cap: month 1 ≤ ₹3K, month 2 ≤ ₹6K, month 3 ≤ ₹10K</label></div>
+        <div class="check"><input type="checkbox" id="m-3" data-id="m-3"><label for="m-3">Build customer Google Sheet (Phone | First Order Date | Last Order Date | Lifetime Spend | Channel)</label></div>
+        <div class="check"><input type="checkbox" id="m-4" data-id="m-4"><label for="m-4">Saturday-night WhatsApp push template ready</label></div>
+        <div class="check"><input type="checkbox" id="m-5" data-id="m-5"><label for="m-5">Referral mechanic decided + coded into menu (₹30/₹30 raita combo)</label></div>
+      </div>
+
+      <div class="note-block">
+        <label>Marketing notes</label>
+        <textarea data-id="note-marketing" placeholder="Ad results, cost per order, channel mix, what's working…"></textarea>
+      </div>
+    </section>
+
+    <!-- ============ 11. RESEARCH ============ -->
+    <section id="research">
+      <div class="sec-head"><span class="sec-num">11</span></div>
+      <h2 style="margin-top:0">Industry research — what successful cloud kitchens did right</h2>
+      <p class="sec-lead">Patterns from the kitchens that scaled in India. Worth re-reading every 30 days.</p>
+
+      <h3>Rebel Foods (Behrouz, Faasos, Oven Story, etc.)</h3>
+      <ul>
+        <li>Started 2011 as <em>Faasos</em> — wraps. Realised single-brand cloud kitchen is hard to fill capacity.</li>
+        <li><strong>Multi-brand model:</strong> one physical kitchen, 5–12 virtual brands on aggregators. Same chicken can become "biryani brand", "kathi roll brand", "bowl brand".</li>
+        <li>Lesson for you: in 6 months, consider listing as <strong>two brands</strong> on aggregators — "Desi Monk Kitchen" (curries) and a second virtual brand "Monk's Biryani" — same kitchen, double the search-result real estate.</li>
+      </ul>
+
+      <h3>Box8 (Eatfit umbrella)</h3>
+      <ul>
+        <li>IIT Bombay alums, focused on Indian thali / desi meals — <em>exactly your category</em>.</li>
+        <li>Standardised SKUs (every meal weighs the same), tight packaging, focused on office-lunch dabba market.</li>
+        <li>Lesson: <strong>standardisation beats variety.</strong> 10 plates of chicken curry should be indistinguishable from each other.</li>
+      </ul>
+
+      <h3>Biryani By Kilo</h3>
+      <ul>
+        <li>One hero SKU: handi biryani. Premium positioning.</li>
+        <li>Lesson: a single hero gets you discovery. Customers don't search "home food" — they search "chicken biryani near me". Pick a hero search term and own it.</li>
+        <li>Your hero candidates: <strong>"home-style chicken curry"</strong>, <strong>"Sunday mutton feast"</strong>.</li>
+      </ul>
+
+      <h3>The dabba originals (small operators, very relevant to you)</h3>
+      <ul>
+        <li>Most successful tiny home-kitchens in Bengaluru started by <strong>solving one specific person</strong>: the bachelor IT worker who wants ghar-jaisa khana within a 1-km radius. They didn't try to be everything.</li>
+        <li>Their pattern: 3 SKUs to launch. Subscriptions (15 meals / ₹1,800). 70 % repeat business by month 3.</li>
+        <li>Lesson: build a <strong>weekly subscription / dabba plan</strong> by month 4 — recurring revenue, no aggregator commission.</li>
+      </ul>
+
+      <h3>Common failure patterns to avoid</h3>
+      <ul>
+        <li><strong>Menu bloat.</strong> Restaurants that launched with 30 items closed by month 6.</li>
+        <li><strong>Aggregator dependence.</strong> Kitchens 100 % on Swiggy/Zomato die when commissions rise. Build direct from day one.</li>
+        <li><strong>Founder cooks every meal.</strong> Doesn't scale past 25 orders/day. Plan a helper now.</li>
+        <li><strong>Ignoring rating.</strong> A drop from 4.2 → 3.8 = 60 % traffic loss. Refund first, argue later.</li>
+        <li><strong>Cash-flow blindness.</strong> Aggregator pays after 7–14 days. You need ₹50K–1L working capital float.</li>
+      </ul>
+
+      <div class="callout callout-tip">
+        <h4>The repeat-customer obsession</h4>
+        <p style="margin:0">A new customer costs ₹80 to acquire. A repeat customer costs ₹0. Every successful kitchen above has one rule: <em>treat the first order like a wedding</em>. Hand-written thank-you note, free raita, perfect packaging. The first order isn't profitable — it's marketing.</p>
+      </div>
+
+      <div class="note-block">
+        <label>Research notes</label>
+        <textarea data-id="note-research" placeholder="Other kitchens you observe nearby, what they're doing well/badly…"></textarea>
+      </div>
+    </section>
+
+    <!-- ============ 12. RISKS ============ -->
+    <section id="risks">
+      <div class="sec-head"><span class="sec-num">12</span></div>
+      <h2 style="margin-top:0">Risks &amp; pitfalls</h2>
+      <p class="sec-lead">A kitchen doesn't usually die from one big problem — it dies from five small ones at once. Read this list weekly for the first 90 days.</p>
+
+      <div class="grid">
+        <div class="card">
+          <div class="card-label">Food-poisoning incident</div>
+          <div class="card-value" style="color:var(--chili);">Catastrophic</div>
+          <div class="card-meta">Cold chain, hand-wash, separate boards. Refrigerate within 2 hr. Don't reheat curry &gt; once.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Rating drop &lt; 4.0</div>
+          <div class="card-value" style="color:var(--chili);">Severe</div>
+          <div class="card-meta">Aggregator kills your discovery. Refund + apology + free dish to win back.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Supplier ghosting (mutton)</div>
+          <div class="card-value">High</div>
+          <div class="card-meta">Always have 2 vendors. Map a 3-km backup plan in advance.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Cash flow gap (week 4)</div>
+          <div class="card-value">High</div>
+          <div class="card-meta">Aggregator settles weekly with 7-day lag. Keep ₹50K–1L float.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Aggregator commission hike</div>
+          <div class="card-value">Medium</div>
+          <div class="card-meta">Both platforms raise commission after 60 days. Direct channel must be growing by then.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Festival demand spike</div>
+          <div class="card-value">Medium</div>
+          <div class="card-meta">Sunday + festivals = 3× orders. Pre-marinate Saturday afternoon. Cap orders per slot to avoid quality drop.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Power / gas outage during service</div>
+          <div class="card-value">Medium</div>
+          <div class="card-meta">Backup gas cylinder always at home. Inverter for fridge during 1+ hr outages.</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Rider not showing up (aggregator)</div>
+          <div class="card-value">Low</div>
+          <div class="card-meta">Auto-handled by Swiggy/Zomato but slows your kitchen. Mark "ready" only when truly ready.</div>
+        </div>
+      </div>
+
+      <h3>Hygiene non-negotiables</h3>
+      <div data-list="risk-hygiene">
+        <div class="check"><input type="checkbox" id="r-h1" data-id="r-h1"><label for="r-h1">Soap + hot water at every entry/exit + before/after handling raw meat</label></div>
+        <div class="check"><input type="checkbox" id="r-h2" data-id="r-h2"><label for="r-h2">Hair tied / cap on while cooking</label></div>
+        <div class="check"><input type="checkbox" id="r-h3" data-id="r-h3"><label for="r-h3">No phone in cooking zone (use a wall-mounted timer instead)</label></div>
+        <div class="check"><input type="checkbox" id="r-h4" data-id="r-h4"><label for="r-h4">Garbage taken out every night, double-bagged, no overnight raw-meat scraps</label></div>
+        <div class="check"><input type="checkbox" id="r-h5" data-id="r-h5"><label for="r-h5">Pest-control monthly visit booked (₹500–800/month)</label></div>
+        <div class="check"><input type="checkbox" id="r-h6" data-id="r-h6"><label for="r-h6">Annual cook health certificate scheduled</label></div>
+      </div>
+
+      <div class="note-block">
+        <label>Incidents log</label>
+        <textarea data-id="note-risks" placeholder="Date | What happened | Action taken | Lesson…"></textarea>
+      </div>
+    </section>
+
+    <!-- ============ 13. CASHFLOW ============ -->
+    <section id="cashflow">
+      <div class="sec-head"><span class="sec-num">13</span></div>
+      <h2 style="margin-top:0">90-day cash plan</h2>
+      <p class="sec-lead">Indicative — replace with real numbers as you start operating.</p>
+
+      <h3>One-time setup (already incurring or about to)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>Estimate</th></tr></thead>
+          <tbody>
+            <tr><td>Rental security deposit</td><td>₹50,000 (already paid)</td></tr>
+            <tr><td>FSSAI registration</td><td>₹100–2,000 (done)</td></tr>
+            <tr><td>GST registration (DIY)</td><td>₹0 (in progress)</td></tr>
+            <tr><td>Current account opening</td><td>₹0 — ₹10,000 minimum balance</td></tr>
+            <tr><td>Initial packaging stock (1 month)</td><td>₹4,000–5,000</td></tr>
+            <tr><td>Brand stickers (500 pcs)</td><td>₹1,500</td></tr>
+            <tr><td>Pamphlets (1,000 pcs)</td><td>₹2,000</td></tr>
+            <tr><td>Kitchen equipment top-up (digital scale, thermometer, fire extinguisher, separate boards, aprons)</td><td>₹3,500</td></tr>
+            <tr><td>Working-capital float (covers 14-day aggregator settlement lag)</td><td>₹50,000–₹1,00,000</td></tr>
+            <tr><td><strong>Total one-time</strong></td><td><strong>≈ ₹1,20,000 – ₹1,75,000</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Monthly recurring (steady state, month 3+)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>Monthly</th></tr></thead>
+          <tbody>
+            <tr><td>Rent</td><td>₹17,000</td></tr>
+            <tr><td>Gas (1.5 cylinders)</td><td>₹1,500</td></tr>
+            <tr><td>Electricity + water</td><td>₹2,000</td></tr>
+            <tr><td>Internet + phone (2 lines)</td><td>₹800</td></tr>
+            <tr><td>Packaging (refill)</td><td>₹4,000</td></tr>
+            <tr><td>Pest control</td><td>₹600</td></tr>
+            <tr><td>Marketing (Meta + pamphlets)</td><td>₹6,000</td></tr>
+            <tr><td>Helper (part-time, month 3 onwards)</td><td>₹6,000</td></tr>
+            <tr><td><strong>Total fixed</strong></td><td><strong>≈ ₹37,000 – ₹38,000</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Variable: ingredients ≈ 35–40 % of revenue.</p>
+
+      <h3>Breakeven math (rough)</h3>
+      <p>Monthly fixed ₹38,000 ÷ avg margin per order ₹50 = <strong>≈ 760 orders / month ≈ 25 orders / day</strong>. Realistic by month 3 if marketing &amp; rating discipline hold.</p>
+
+      <h3>Cash plan tasks</h3>
+      <div data-list="cash-todo">
+        <div class="check"><input type="checkbox" id="cf-1" data-id="cf-1"><label for="cf-1">Set aside ₹50K float in current account for aggregator-lag</label></div>
+        <div class="check"><input type="checkbox" id="cf-2" data-id="cf-2"><label for="cf-2">Daily sales sheet started (Date | Orders | GMV | Net receipt | Costs | Profit)</label></div>
+        <div class="check"><input type="checkbox" id="cf-3" data-id="cf-3"><label for="cf-3">Monthly P&amp;L review every 1st Sunday</label></div>
+        <div class="check"><input type="checkbox" id="cf-4" data-id="cf-4"><label for="cf-4">Cap personal withdrawal at ₹15K/month for first 90 days — let cash compound</label></div>
+        <div class="check"><input type="checkbox" id="cf-5" data-id="cf-5"><label for="cf-5">GST returns: file GSTR-3B by 20th of every month (or hire a CA at ₹500/month)</label></div>
+      </div>
+
+      <div class="note-block">
+        <label>Cash-flow notes</label>
+        <textarea data-id="note-cash" placeholder="Daily sales, weekly summary, surprises…"></textarea>
+      </div>
+    </section>
+
+    <footer>
+      Desi Monk Kitchen · Internal tracker · Confidential. This file is gitignored and never deployed to Vercel.
+      <br>Multi-user sync today is via Export → WhatsApp → Import. To upgrade to real-time sync, ask the owner to wire Firebase.
+    </footer>
+  </main>
+</div>
+
+<!-- ===================== JS ===================== -->
+<script>
+(() => {
+  // ---------- Password gate ----------
+  // Stored as SHA-256 hex of the password. To rotate, open browser DevTools
+  // console after unlocking and run:  await sha("yourNewPassword")
+  // Paste the returned hex into PASSWORD_HASH below, save, redeploy.
+  // Default password (rotate after sharing the URL): desimonk2026
+  const PASSWORD_HASH = "f78daaa4c131ed8c48a832bbea5cc6456598aba3dabbea41b691c19ebf4b3a1e";
+  const SESSION_KEY = "dmk_tracker_unlocked";
+  const STORAGE_KEY = "dmk_tracker_state_v1";
+  const SAVED_AT_KEY = "dmk_tracker_saved_at";
+
+  async function sha(text) {
+    const buf = new TextEncoder().encode(text);
+    const hash = await crypto.subtle.digest("SHA-256", buf);
+    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+  window.sha = sha;
+
+  const gate = document.getElementById("gate");
+  const app = document.getElementById("app");
+  const passInput = document.getElementById("gatePass");
+  const passBtn = document.getElementById("gateBtn");
+  const passErr = document.getElementById("gateErr");
+
+  function unlock() {
+    sessionStorage.setItem(SESSION_KEY, "1");
+    gate.style.display = "none";
+    app.hidden = false;
+    init();
+  }
+  async function tryUnlock() {
+    const h = await sha(passInput.value);
+    if (h === PASSWORD_HASH) {
+      passErr.textContent = "";
+      unlock();
+    } else {
+      passErr.textContent = "Wrong password.";
+      passInput.select();
+    }
+  }
+  passBtn.addEventListener("click", tryUnlock);
+  passInput.addEventListener("keydown", e => { if (e.key === "Enter") tryUnlock(); });
+
+  if (sessionStorage.getItem(SESSION_KEY) === "1") {
+    unlock();
+  } else {
+    setTimeout(() => passInput.focus(), 60);
+  }
+
+  // ---------- App init ----------
+  function init() {
+    bindNav();
+    bindMobileMenu();
+    bindActions();
+    loadState();
+    updateProgress();
+    showSavedTag();
+    bindAutoSave();
+    setActiveOnScroll();
+  }
+
+  // ---------- Navigation ----------
+  function bindNav() {
+    const links = document.querySelectorAll("#nav a");
+    links.forEach(a => {
+      a.addEventListener("click", () => {
+        document.getElementById("sidebar").classList.remove("open");
+        document.getElementById("scrim").classList.remove("show");
+      });
+    });
+  }
+  function setActiveOnScroll() {
+    const sections = document.querySelectorAll("section[id]");
+    const links = Array.from(document.querySelectorAll("#nav a"));
+    const map = new Map(links.map(a => [a.getAttribute("data-sec"), a]));
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          links.forEach(l => l.classList.remove("active"));
+          const link = map.get(e.target.id);
+          if (link) link.classList.add("active");
+        }
+      });
+    }, { rootMargin: "-30% 0px -60% 0px", threshold: 0 });
+    sections.forEach(s => obs.observe(s));
+  }
+
+  // ---------- Mobile menu ----------
+  function bindMobileMenu() {
+    const btn = document.getElementById("menuBtn");
+    const sb = document.getElementById("sidebar");
+    const sc = document.getElementById("scrim");
+    btn.addEventListener("click", () => { sb.classList.add("open"); sc.classList.add("show"); });
+    sc.addEventListener("click", () => { sb.classList.remove("open"); sc.classList.remove("show"); });
+  }
+
+  // ---------- State persistence ----------
+  function getState() {
+    const checks = {};
+    document.querySelectorAll('input[type="checkbox"][data-id]').forEach(c => {
+      checks[c.dataset.id] = c.checked;
+    });
+    const notes = {};
+    document.querySelectorAll('textarea[data-id]').forEach(t => {
+      notes[t.dataset.id] = t.value;
+    });
+    return { checks, notes, savedAt: new Date().toISOString() };
+  }
+  function applyState(state) {
+    if (!state) return;
+    if (state.checks) {
+      Object.entries(state.checks).forEach(([id, val]) => {
+        const el = document.querySelector(`input[type="checkbox"][data-id="${cssEscape(id)}"]`);
+        if (el) el.checked = !!val;
+      });
+    }
+    if (state.notes) {
+      Object.entries(state.notes).forEach(([id, val]) => {
+        const el = document.querySelector(`textarea[data-id="${cssEscape(id)}"]`);
+        if (el) el.value = val || "";
+      });
+    }
+  }
+  function cssEscape(s) { return (window.CSS && CSS.escape) ? CSS.escape(s) : String(s).replace(/"/g, '\\"'); }
+  function saveState() {
+    const state = getState();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    localStorage.setItem(SAVED_AT_KEY, state.savedAt);
+    showSavedTag();
+    updateProgress();
+  }
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) applyState(JSON.parse(raw));
+    } catch (e) { console.warn("State load failed", e); }
+  }
+  function bindAutoSave() {
+    document.body.addEventListener("change", e => {
+      if (e.target.matches('input[type="checkbox"][data-id], textarea[data-id]')) saveState();
+    });
+    document.body.addEventListener("input", e => {
+      if (e.target.matches('textarea[data-id]')) {
+        clearTimeout(window.__dmk_t);
+        window.__dmk_t = setTimeout(saveState, 500);
+      }
+    });
+  }
+  function showSavedTag() {
+    const tag = document.getElementById("savedTag");
+    const at = localStorage.getItem(SAVED_AT_KEY);
+    if (!at) { tag.textContent = "Last saved: —"; return; }
+    const d = new Date(at);
+    tag.textContent = "Last saved: " + d.toLocaleString();
+  }
+
+  // ---------- Progress ----------
+  function updateProgress() {
+    const all = document.querySelectorAll('input[type="checkbox"][data-id]');
+    const done = Array.from(all).filter(c => c.checked).length;
+    const pct = all.length ? Math.round((done / all.length) * 100) : 0;
+    const bar = document.getElementById("progBar");
+    if (bar) bar.style.width = pct + "%";
+    const pctEl = document.getElementById("progPct");
+    if (pctEl) pctEl.textContent = pct + "%";
+    const txt = document.getElementById("progText");
+    if (txt) txt.textContent = `${done} of ${all.length} tasks complete.`;
+  }
+
+  // ---------- Actions: Export / Import / Reset / Lock ----------
+  function bindActions() {
+    document.getElementById("btnExport").addEventListener("click", exportJson);
+    document.getElementById("btnImport").addEventListener("click", () => document.getElementById("fileImport").click());
+    document.getElementById("fileImport").addEventListener("change", importJson);
+    document.getElementById("btnReset").addEventListener("click", resetAll);
+    document.getElementById("btnLock").addEventListener("click", lockNow);
+  }
+  function exportJson() {
+    const state = getState();
+    const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    const stamp = new Date().toISOString().slice(0, 10);
+    a.href = url; a.download = `dmk-tracker-${stamp}.json`;
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 0);
+  }
+  function importJson(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const state = JSON.parse(reader.result);
+        if (!confirm("Replace current tracker state with imported file? This will overwrite your local data.")) return;
+        applyState(state);
+        saveState();
+        alert("Imported successfully.");
+      } catch (err) {
+        alert("Invalid file.");
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = "";
+  }
+  function resetAll() {
+    if (!confirm("Wipe all checkboxes and notes on this device? Cannot be undone (export first if you want a backup).")) return;
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(SAVED_AT_KEY);
+    document.querySelectorAll('input[type="checkbox"][data-id]').forEach(c => {
+      // keep the 3 already-done items pre-checked on reset
+      const id = c.dataset.id;
+      c.checked = (id === "c-done-1" || id === "c-done-2" || id === "c-done-3");
+    });
+    document.querySelectorAll('textarea[data-id]').forEach(t => t.value = "");
+    saveState();
+  }
+  function lockNow() {
+    sessionStorage.removeItem(SESSION_KEY);
+    location.reload();
+  }
+})();
+</script>
+</body>
+</html>
