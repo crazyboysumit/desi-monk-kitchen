@@ -92,11 +92,20 @@
   .gate-hint { color: var(--ink-3); font-size: .75rem; margin-top: 14px; }
 
   /* ---------- shell ---------- */
-  .shell { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+  .shell {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    grid-template-areas: "side main";
+    min-height: 100vh;
+  }
+  .shell[hidden] { display: none; }
   .sidebar {
+    grid-area: side;
     position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
     background: var(--paper); border-right: 1px solid var(--line); padding: 18px 14px;
+    z-index: 10;
   }
+  .main { grid-area: main; min-width: 0; }
   .brand {
     display: flex; align-items: center; gap: 10px; padding: 4px 8px 16px;
     border-bottom: 1px solid var(--line); margin-bottom: 12px;
@@ -302,7 +311,6 @@
       <a href="#cashflow"       data-sec="cashflow"><span class="nav-num">13</span> 90-day cash plan</a>
     </nav>
   </aside>
-  <div class="scrim" id="scrim"></div>
 
   <main class="main">
     <div class="topbar">
@@ -1069,11 +1077,13 @@
     </section>
 
     <footer>
-      Desi Monk Kitchen · Internal tracker · Confidential. This file is gitignored and never deployed to Vercel.
+      Desi Monk Kitchen · Internal tracker · Confidential — protected by password gate &amp; <code>noindex</code>.
       <br>Multi-user sync today is via Export → WhatsApp → Import. To upgrade to real-time sync, ask the owner to wire Firebase.
     </footer>
   </main>
 </div>
+
+<div class="scrim" id="scrim"></div>
 
 <!-- ===================== JS ===================== -->
 <script>
