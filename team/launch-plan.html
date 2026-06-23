@@ -97,6 +97,15 @@
   footer{color:var(--ink-3);font-size:.8rem;margin-top:24px;text-align:center;}
   .backlink{display:inline-block;margin-bottom:14px;font-size:.85rem;}
 
+  .dl-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-top:8px;}
+  .dl-card{border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:14px;display:flex;flex-direction:column;align-items:center;text-align:center;box-shadow:var(--shadow);}
+  .dl-card .dl-thumb{display:flex;align-items:center;justify-content:center;height:240px;width:100%;}
+  .dl-card img{max-width:100%;max-height:240px;width:auto;height:auto;border-radius:8px;border:1px solid var(--line);background:var(--cream);object-fit:contain;}
+  .dl-card h4{margin:12px 0 2px;color:var(--teal-deep);}
+  .dl-card .dl-meta{font-size:.78rem;color:var(--ink-3);margin-bottom:12px;}
+  .dl-btn{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;font-weight:600;font-size:.88rem;padding:10px 18px;border-radius:8px;transition:background .15s;margin-top:auto;}
+  .dl-btn:hover{background:var(--teal-deep);color:#fff;}
+
   @media print{.gate{display:none!important;}body{background:#fff;}section,.hero,.toc{box-shadow:none;break-inside:avoid;}}
 </style>
 </head>
@@ -137,6 +146,7 @@
   <div class="toc">
     <h4>On this page</h4>
     <ol>
+      <li><a href="#downloads">⬇ Download finished assets</a></li>
       <li><a href="#menu">The launch menu (5 items)</a></li>
       <li><a href="#pricing">Item pricing — two channels</a></li>
       <li><a href="#combos">Combos &amp; “price for two”</a></li>
@@ -147,6 +157,39 @@
       <li><a href="#steps">Action steps — who does what</a></li>
     </ol>
   </div>
+
+  <!-- DOWNLOADS -->
+  <section id="downloads">
+    <span class="sec-num">★</span>
+    <h2>Download — finished marketing assets</h2>
+    <p class="lead">The final print-ready files. Tap “Download” to save the full-resolution version, then send to the printer or share with the team. (Previews are small; the download is full quality.)</p>
+    <div class="dl-grid">
+      <div class="dl-card">
+        <div class="dl-thumb"><img src="/assets/thumbs/thumb-pamphlet.jpg" alt="PG / hostel pamphlet" loading="lazy"></div>
+        <h4>PG / Hostel pamphlet</h4>
+        <div class="dl-meta">A5 • 1440×2174 PNG</div>
+        <a class="dl-btn" href="/assets/pamplet-final.png" download="desi-monk-pamphlet.png">⬇ Download</a>
+      </div>
+      <div class="dl-card">
+        <div class="dl-thumb"><img src="/assets/thumbs/thumb-noparking.jpg" alt="No-parking gate board" loading="lazy"></div>
+        <h4>No-Parking gate board</h4>
+        <div class="dl-meta">3×2 ft flex • 2027×1547 PNG</div>
+        <a class="dl-btn" href="/assets/no-parking.png" download="desi-monk-no-parking.png">⬇ Download</a>
+      </div>
+      <div class="dl-card">
+        <div class="dl-thumb"><img src="/assets/thumbs/thumb-sticker.jpg" alt="Brand sticker" loading="lazy"></div>
+        <h4>Brand sticker</h4>
+        <div class="dl-meta">Round 50–75 mm • 2048×2048 PNG</div>
+        <a class="dl-btn" href="/assets/final-brand-clean.png" download="desi-monk-brand-sticker.png">⬇ Download</a>
+      </div>
+      <div class="dl-card">
+        <div class="dl-thumb"><img src="/assets/thumbs/thumb-qr.jpg" alt="WhatsApp QR code" loading="lazy"></div>
+        <h4>WhatsApp QR code</h4>
+        <div class="dl-meta">3000×3000 PNG</div>
+        <a class="dl-btn" href="/assets/whatsapp-qr.png" download="desi-monk-whatsapp-qr.png">⬇ Download</a>
+      </div>
+    </div>
+  </section>
 
   <!-- 1. MENU -->
   <section id="menu">
